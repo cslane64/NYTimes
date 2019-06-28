@@ -1,0 +1,1 @@
+// holds the mongoose schema for note
