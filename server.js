@@ -1,6 +1,6 @@
 //entry point into the application
 var express = require("express");
-var mongoose = reuire("mongoose");
+var mongoose = require("mongoose");
 var expressHandlebars = require("express-handlebars");
 var mongojs = require("mongojs");
 // Require axios and cheerio. This makes the scraping possible
@@ -10,7 +10,7 @@ var cheerio = require("cheerio");
 // Initialize Express
 var app = express();
 
-app.use(express.static(__dirname + "/public"));
+app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.engine("handlebars", expressHandlebars({
@@ -18,8 +18,10 @@ app.engine("handlebars", expressHandlebars({
 }));
 app.set("view engine", "handlebars");
 
-var databaseUrl = "";
-var collections = [""];
+require("./config/routes")(app);
+
+var databaseUrl = "times_db";
+var collections = ["articles"];
 
 var db = mongojs(databaseUrl, collections);
 db.on("error", function(error) {
