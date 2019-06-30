@@ -7,11 +7,12 @@ var mongojs = require("mongojs");
 var axios = require("axios");
 var cheerio = require("cheerio");
 
+var db = require("./models");
 // Initialize Express
 var app = express();
 
 app.use(express.static("public"));
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.engine("handlebars", expressHandlebars({
     defaultLayout: "main"
@@ -20,14 +21,17 @@ app.set("view engine", "handlebars");
 
 require("./config/routes")(app);
 
-var databaseUrl = "times_db";
-var collections = ["articles"];
+//var databaseUrl = "times_db";
+//var collections = ["articles"];
 
-var db = mongojs(databaseUrl, collections);
-db.on("error", function(error) {
-  console.log("Database Error:", error);
+//var db = process.env.MONGODB_URI || "mongodb://localhost/times_db";
+mongoose.connect("mongodb://localhost/times_db", { useNewUrlParser: true }, function(error){
+  if (error) {
+    console.log("database connection error" + error)
+  } else {
+    console.log("The database IS connected")
+  }
 });
-
 
 
 // Listen on port 3000
