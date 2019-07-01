@@ -20,35 +20,23 @@ module.exports = function(app){
         axios.get("https://www.bostonherald.com/").then(function(response) {
           // Then, we load that into cheerio and save it to $ for a shorthand selector
           var $ = cheerio.load(response.data);
-      
+          var articleArray = [];
           
-          // Now, we grab every h2 within an article tag, and do the following:
-          $(".article-info span").each(function(i, element) {
-            // Save an empty result object
-            //var result = {};
-            var title = $(element).text();
-            console.log(title);
-            // Add the text and href of every link, and save them as properties of the result object
-            // result.title = $(this)
-            //   .children("a")
-            //   .text();
-            //   console.log(result.title);
-            // result.link = $(this)
-            //   .children("a") 
-            //   .attr("href");
-            //   console.log(result.link);
+          
+          $(".article-info").each(function(i, element) {
+            
+            var title = $(element).find("span").text();
+            var summary = $(element).find(".excerpt").text();
+            var url = $(element).find(".article-title").attr("href");
+            
 
-       
-            // // Create a new Article using the `result` object built from scraping
-            // db.Headline.create(result)
-            //   .then(function(dbHeadline) {
-            //     // View the added result in the console
-            //     console.log(dbHeadline);
-            //   })
-            //   .catch(function(err) {
-            //     // If an error occurred, log it
-            //     console.log(err);
-            //   });
+            articleArray.push({
+              title: title,
+              summary: summary,
+              url: url
+            });
+            console.log(articleArray);
+            
           });
       
           // Send a message to the client
