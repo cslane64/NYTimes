@@ -21,12 +21,9 @@ var headlineSchema = new Schema({
     saved:{
         type: Boolean,
         default: false
-    },
-    
-    Note:{
-        type: Schema.Types.ObjectId,
-        ref: "Note"
     }
+    
+    
     
 });
 

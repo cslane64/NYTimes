@@ -6,7 +6,12 @@ var Schema = mongoose.Schema;
 var noteSchema = new Schema({
     title: String,
     
-    noteText: String
+    noteText: String,
+
+    _headlineId:{
+        type: Schema.Types.ObjectId,
+        ref: "Headline"
+    }
 
 });
 

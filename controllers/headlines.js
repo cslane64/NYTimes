@@ -16,6 +16,21 @@ module.exports = {
         Headline.collection.insertMany(articles, function(err, docs){
             callback(err, docs);
         });
+    },
+
+    delete: function(query, callback) {
+        Headline.remove(query, callback);
+    },
+
+    get: function(query, callback){
+        Headline.find(query)
+        .exec(function(err, doc) {
+            callback(doc);
+        })
+    },
+
+    update: function(query, callback) {
+        Headline.update({_id: query._id}, {$set: query}, {}, callback)
     }
 
 }
