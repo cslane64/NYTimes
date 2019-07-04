@@ -14,7 +14,8 @@ var db = mongojs(databaseUrl, collections);
 
 module.exports = function(app){
     app.get("/", function(req, res){
-        res.render("index");
+        
+        res.render("index", {});
     }) 
     app.get("/headlines", function(req, res) {
         var query = {};
@@ -22,10 +23,11 @@ module.exports = function(app){
             query = req.query;
         }
 
-        headlinesController.get(query, function(data){
+        headlinesController.get(query, function(head){
             
-            console.log(data)
-            res.json(data);
+            console.log("This is the head array" + head)
+            res.render("index", {head: head});
+            //res.json(head);
         });
 
         

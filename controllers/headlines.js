@@ -25,7 +25,12 @@ module.exports = {
     get: function(query, callback){
         Headline.find(query)
         .exec(function(err, doc) {
-            callback(doc);
+            var docObject = [];
+            for (var i=0; i < doc.length; i++) {
+                docObject.push(doc[i]);
+            }
+            //console.log("this is the docObject Array of Objects" + docObject)
+            callback(docObject);
         })
     },
 
