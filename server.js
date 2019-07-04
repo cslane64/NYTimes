@@ -3,6 +3,7 @@ var express = require("express");
 var mongoose = require("mongoose");
 var expressHandlebars = require("express-handlebars");
 var mongojs = require("mongojs");
+var exphbs  = require('express-handlebars');
 // Require axios and cheerio. This makes the scraping possible
 var axios = require("axios");
 var cheerio = require("cheerio");
@@ -11,12 +12,12 @@ var db = require("./models");
 // Initialize Express
 var app = express();
 
-app.use(express.static("public"));
+app.use(express.static(__dirname + "/public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.engine("handlebars", expressHandlebars({
-    defaultLayout: "main"
-}));
+
+app.engine('handlebars', exphbs());
+app.set('view engine', 'handlebars');
 app.set("view engine", "handlebars");
 
 require("./config/routes")(app);

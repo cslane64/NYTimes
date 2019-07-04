@@ -1,38 +1,92 @@
 // This is where our routes will live
-var scrape = require("../scripts/scrape");
+//var scrape = require("../scripts/scrape");
 var headlinesController = require("../controllers/headlines");
 var notesController = require("../controllers/saved");
+var cheerio = require("cheerio");
+var axios = require("axios");
+var mongojs = require("mongojs");
+var exphbs = require("express-handlebars");
+var databaseUrl = "times_db";
+var collections = ["headlines"];
+var db = mongojs(databaseUrl, collections);
+
+
 
 module.exports = function(app){
-    app.get("/", function(req, res) {
-        res.render("home");
+    app.get("/", function(req, res){
+        res.render("index");
+    }) 
+    app.get("/headlines", function(req, res) {
+        var query = {};
+        if (req.query.saved) {
+            query = req.query;
+        }
 
-    });
-
-    app.get("/saved", function(req, res) {
-        res.render("saved");
-
-    });
-
-    app.get("/scrape", function(req, res) {
-   
-      });
-
-    app.get("/api/collect", function(req, res) {
-        headlinesController.collect(function(err, docs){
-            if(!docs || docs.insertedCount === 0) {
-                res.json({
-                    message: "No new articles were saved"
-                });
-            } else {
-                res.json({
-                    message: "Added " + docs.insertedCount + " new articles"
-                });
-            }
+        headlinesController.get(query, function(data){
+            
+            console.log(data)
+            res.json(data);
         });
 
+        
+    });
+        
+
+     
+
+    app.get("/scrape", function(req, res) {
+        axios.get("https://www.bostonherald.com/").then(function(response) {
+        // Then, we load that into cheerio and save it to $ for a shorthand selector
+        var $ = cheerio.load(response.data);
+        var articleArray = [];
+                
+        $(".article-info").each(function(i, element) {
+          
+            var title = $(element).find("span").text();
+            var summary = $(element).find(".excerpt").text();
+            var url = $(element).find(".article-title").attr("href");
+          
+            var scrapedArticleData = {
+                title: title,
+                summary: summary,
+                url: url
+            };
+
+            if (title && url) {
+                db.headlines.insert({
+                    title: title,
+                    summary: summary,
+                    url: url,
+                    saved: false
+                },
+                function(err, inserted ){
+                    if(err) {
+                        console.log(err);
+                    } else {
+                        console.log(inserted);
+                    }
+                })
+
+            }
+          
+          
+          //console.log(articleArray);
+          
+        });
+        
+        // Send a message to the client
+        //res.redirect("/");
+      });
+
     });
 
+    
+
+    app.get("/saved", function(req, res) {
+        
+      });
+
+    
     app.get("/api/headlines", function(req, res) {
         var query = {};
         if (req.query.saved) {
@@ -40,6 +94,7 @@ module.exports = function(app){
         }
 
         headlinesController.get(query, function(data){
+            //res.render("index", {data: data});
             res.json(data);
         });
     });

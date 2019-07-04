@@ -1,5 +1,5 @@
 // the info that cheerio needs to scrape from the NY times web page
-var cheerio = require("cheerio")
+var cheerio = require("cheerio");
 var axios = require("axios");
 
 var scrape = function(callback) {
@@ -26,9 +26,9 @@ var scrape = function(callback) {
           console.log(articleArray);
           
         });
-        callback(articleArray);
+        //callback(articleArray);
         // Send a message to the client
-        // res.send("Scrape Complete");
+        //res.render("index", {articleArray: articleArray });
       });
 };
 
