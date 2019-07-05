@@ -21,6 +21,7 @@ module.exports = function(app){
     
     app.get("/headlines", function(req, res) {
         db.headlines.find({saved: false}, function(error, head){
+            //console.log(head)
             if (error) {
                 console.log(error);
             } else {
@@ -109,11 +110,43 @@ module.exports = function(app){
         });
     });
 
-    app.patch("/api/headlines", function (req,res){
-        headlinesController.update(req.body, function(err, data){
-            res.json(data);
-        });
+    app.post("/update/:id", function(req, res) {
+        // When searching by an id, the id needs to be passed in
+        // as (mongojs.ObjectId(IdYouWantToFind))
+      
+        // Update the note that matches the object id
+        db.headlines.update(
+          {
+            _id: mongojs.ObjectId(req.params.id)
+          },
+          {
+            // Set the title, note and modified parameters
+            // sent in the req body.
+            $set: {
+              saved: true
+            }
+          },
+          function(error, edited) {
+            // Log any errors from mongojs
+            if (error) {
+              console.log(error);
+              res.send(error);
+            }
+            else {
+              // Otherwise, send the mongojs response to the browser
+              // This will fire off the success function of the ajax request
+              console.log(edited);
+              res.send(edited);
+            }
+          }
+        );
     });
+
+    // app.patch("/api/headlines", function (req,res){
+    //     headlinesController.update(req.body, function(err, data){
+    //         res.json(data);
+    //     });
+    // });
     
     app.get("/api/notes/:headline_id?", function(req,res){
         var query = {};

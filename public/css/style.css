@@ -1,6 +1,9 @@
 body {
     background: #999;
 }
+.jumbotron{
+    margin-bottom: 0;
+}
 
 .card {
     margin: 5px;
@@ -10,4 +13,7 @@ body {
 }
 .card-title {
     background: pink;
+}
+.save-btn {
+    background: teal;
 }
