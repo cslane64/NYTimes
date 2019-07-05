@@ -1,3 +1,13 @@
 body {
     background: #999;
 }
+
+.card {
+    margin: 5px;
+    border-style: solid;
+    border-width: thin;
+    border-color: black;
+}
+.card-title {
+    background: pink;
+}

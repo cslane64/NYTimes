@@ -7,29 +7,38 @@
   </div>
   <hr class="my-4">
   <div class="container-fluid article-container">
-    <table>
-      <thead>
-        <th>ID</th>
-        <th>Title</th>
-        <th>Summary</th>
-        <th>Url</th>
-        <th>Saved</th>
-      </thead>
-      <tbody>
-        {{#each head}}
-          <tr>
-            <td>{{_id}}</td>
-            <td>{{title}}</td>
-            <td>{{summary}}</td>
-            <td>{{url}}</td>
-            <td>{{saved}}</td>
-          </tr>
-        {{/each}}
-      </tbody>
-    </table>
+    <a class="btn btn-primary btn-lg" href="/scrape" role="button">Click here to Scrape new articles!</a>
   </div>
 
-  <a class="btn btn-primary btn-lg" href="#" role="button">Scrape</a>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-item nav-link" href="/headlines">Headlines</a>
+        <a class="nav-item nav-link" href="/saved">Saved</a>
+        <a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+      </div>
+    </div>
+  </nav>
+
+
+  {{#each head}}
+  <div class="card w-75">
+    <div class="card-body">
+      <p hidden class="card-id">{{id}}</p> 
+      <h5 class="card-title">{{title}}</h5>
+      <p class="card-text">{{summary}}</p>
+      <a href={{url}} target="_blank">{{url}}</a>
+      <a href="/saved" class="btn btn-primary save-btn float-right">Save</a>
+    </div>
+  </div>
+  {{/each}}
+
 </div>
 
 <footer class="footer">
