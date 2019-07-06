@@ -12,8 +12,12 @@ body {
     border-color: black;
 }
 .card-title {
-    background: pink;
+    background: #39ff14;
 }
 .save-btn {
-    background: teal;
+    background: #ff69b4;
+}
+
+.get-btn {
+    background: #ff69b4;
 }

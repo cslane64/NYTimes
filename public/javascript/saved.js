@@ -44,8 +44,27 @@ $(document).ready(function () {
             var selected = $(this).parents("div.modal-content");
             console.log("Save Note button clicked");
             var id = selected.find("p.parent-id").text();
-            var title = selected.find("h5.card-title").text();
-            console.log(id + title);
+            var title = selected.find("h5.modal-title").text();
+            var noteText = selected.find("#user-note").val();
+            console.log(id + title + noteText);
+
+            $.ajax({
+              method: "POST",
+              url: "/api/notes/" + id,
+              data: {
+                // Value taken from title input
+                title: title,
+                // Value taken from note textarea
+                noteText: noteText 
+              }
+            })
+              .then(function(data) {
+                // Log the response
+                console.log(data);
+                // Empty the notes section
+                
+              })
+            
 
           });
 });

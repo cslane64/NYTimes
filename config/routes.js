@@ -1,7 +1,7 @@
 // This is where our routes will live
 //var scrape = require("../scripts/scrape");
-var headlinesController = require("../controllers/headlines");
-var notesController = require("../controllers/saved");
+//var headlinesController = require("../controllers/headlines");
+//var notesController = require("../controllers/saved");
 var cheerio = require("cheerio");
 var axios = require("axios");
 var mongojs = require("mongojs");
@@ -10,7 +10,7 @@ var mongoose = require("mongoose");
 var databaseUrl = "times_db";
 //var collections = ["headlines"];
 var db = mongojs(databaseUrl);
-//var db = require("./models");
+//var db = require("../models");
 
 module.exports = function(app){
 
@@ -157,13 +157,9 @@ module.exports = function(app){
         );
     });
 
-    // app.patch("/api/headlines", function (req,res){
-    //     headlinesController.update(req.body, function(err, data){
-    //         res.json(data);
-    //     });
-    // });
+    
     // Add a note to the notes
-    app.get("/api/notes/:id", function(req,res){
+    app.post("/api/notes/:id", function(req,res){
         db.note.create(req.body)
         .then(function(dbNote) {
             return db.headlines.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id}, { new: true});
@@ -175,14 +171,7 @@ module.exports = function(app){
         .catch(function(err) {
             res.json(err);
         });
-        // var query = {};
-        // if (req.params.headline_id) {
-        //     query._id = req.params.headline_id;
-        // }
-
-        // notesController.get(query, function(err, data){
-        //     res.json(data);
-        // });
+        
     }); 
 
     app.delete("/api/notes/:id", function(req, res){
