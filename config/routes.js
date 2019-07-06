@@ -148,7 +148,7 @@ module.exports = function(app){
     //         res.json(data);
     //     });
     // });
-    
+    // Add a note to the notes
     app.get("/api/notes/:headline_id?", function(req,res){
         db.notes.create(req.body)
         .then(function(dbNote) {
@@ -169,7 +169,7 @@ module.exports = function(app){
         // notesController.get(query, function(err, data){
         //     res.json(data);
         // });
-    });
+    }); 
 
     app.delete("/api/notes/:id", function(req, res){
         
