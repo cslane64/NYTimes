@@ -9,6 +9,7 @@ $(document).ready(function () {
         var title = selected.find("h5.card-title").text();
         console.log(id + title);
         $(".modal-title").text("Add a note for " + title);
+        $(".parent-id").text(id);
         // Make an AJAX POST request
         // This uses the data-id of the update button,
         // which is linked to the specific note title
@@ -20,8 +21,9 @@ $(document).ready(function () {
         //   .then(function(data){
             
         //     if (data.note) {
-        //       $(".modal-title").val(data.note.title);
-        //       $(".modal-body").val(data.note.noteText);
+        //       console.log(data.note.noteText)
+        //       // $(".modal-title").val(data.note.title);
+        //       // $(".modal-body").val(data.note.noteText);
         //     }
         //   })
         //   // On successful call
@@ -35,6 +37,16 @@ $(document).ready(function () {
         //   //   // Grab the results from the db again, to populate the DOM
         //   //   //getResults();
         //     console.log($(this));
+          });
+
+          $(document).on("click", ".note-btn", function() {
+            // Save the selected element
+            var selected = $(this).parents("div.modal-content");
+            console.log("Save Note button clicked");
+            var id = selected.find("p.parent-id").text();
+            var title = selected.find("h5.card-title").text();
+            console.log(id + title);
+
           });
 });
     

@@ -89,28 +89,42 @@ module.exports = function(app){
     });
     
 //*************API ROUTES********************* */
-
-    
-    app.get("/api/headlines", function(req, res) {
-        var query = {};
-        if (req.query.saved) {
-            query = req.query;
-        }
-
-        headlinesController.get(query, function(data){
-            //res.render("index", {data: data});
-            res.json(data);
-        });
+    // This one does NOT work yet, but used to populate modal with notes
+    app.get("/headlines/:id", function(req, res) {
+        // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
+        db.Article.findOne({ _id: req.params.id })
+        // ..and populate all of the notes associated with it
+        .populate("note")
+        .then(function(dbHeadlines) {
+            // If we were able to successfully find an Article with the given id, send it back to the client
+            res.json(dbHeadlines);
+        })
+        .catch(function(err) {
+            // If an error occurred, send it to the client
+            res.json(err);
+        }); 
     });
+
+    // app.get("/api/headlines", function(req, res) {
+    //     var query = {};
+    //     if (req.query.saved) {
+    //         query = req.query;
+    //     }
+
+    //     headlinesController.get(query, function(data){
+    //         //res.render("index", {data: data});
+    //         res.json(data);
+    //     });
+    // });
 
     app.delete("/api/headlines/:id", function(req,res){
-        var query = {};
-        query._id = req.params.id;
-        headlinesController.delete(query, function(err, data){
-            res.json(data);
-        });
+        // var query = {};
+        // query._id = req.params.id;
+        // headlinesController.delete(query, function(err, data){
+        //     res.json(data);
+        // });
     });
-
+    // ******** Saves an article ************
     app.post("/update/:id", function(req, res) {
         // When searching by an id, the id needs to be passed in
         // as (mongojs.ObjectId(IdYouWantToFind))
@@ -149,8 +163,8 @@ module.exports = function(app){
     //     });
     // });
     // Add a note to the notes
-    app.get("/api/notes/:headline_id?", function(req,res){
-        db.notes.create(req.body)
+    app.get("/api/notes/:id", function(req,res){
+        db.note.create(req.body)
         .then(function(dbNote) {
             return db.headlines.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id}, { new: true});
 
@@ -180,20 +194,20 @@ module.exports = function(app){
         // });
     });
 
-    app.post("/api/notes", function(req, res){
-        db.notes.create(req.body) 
-        .then(function(dbNote) {
-            return db.headlines.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id}, { new: true});
+    // app.post("/api/notes", function(req, res){
+    //     db.notes.create(req.body) 
+    //     .then(function(dbNote) {
+    //         return db.headlines.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id}, { new: true});
 
-        })
-        .then(function(dbHeadline) {
-            res.json(dbHeadline);
-        })
-        .catch(function(err) {
-            res.json(err);
-        });
-        // notesController.save(req.body, function(data){
-        //     res.json(data);
-        // })
-    });
+    //     })
+    //     .then(function(dbHeadline) {
+    //         res.json(dbHeadline);
+    //     })
+    //     .catch(function(err) {
+    //         res.json(err);
+    //     });
+    //     // notesController.save(req.body, function(data){
+    //     //     res.json(data);
+    //     // })
+    // });
 }
