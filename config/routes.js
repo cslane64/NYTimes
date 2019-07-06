@@ -5,23 +5,23 @@
 var cheerio = require("cheerio");
 var axios = require("axios");
 var mongojs = require("mongojs");
-var mongoose = require("mongoose");
+//var mongoose = require("mongoose");
 //var exphbs = require("express-handlebars");
-var databaseUrl = "times_db";
+//var databaseUrl = "times_db";
 //var collections = ["headlines"];
-var db = mongojs(databaseUrl);
-//var db = require("../models");
+//var db = mongojs(databaseUrl);
+var db = require("../models");
 
 module.exports = function(app){
 
-//****************html routes ******************************************** */
+//**************** html routes ******************************************** */
     app.get("/", function(req, res){
         
         res.render("index", {});
     }) 
     
     app.get("/headlines", function(req, res) {
-        db.headlines.find({saved: false}, function(error, head){
+        db.Headline.find({saved: false}, function(error, head){
             //console.log(head)
             if (error) {
                 console.log(error);
@@ -44,7 +44,7 @@ module.exports = function(app){
 
     app.get("/saved", function(req, res) {
         // Find all results from the scrapedData collection in the db
-    db.headlines.find({saved: true}, function(error, found) {
+    db.Headline.find({saved: true}, function(error, found) {
         // Throw any errors to the console
         if (error) {
         console.log(error);
@@ -69,7 +69,7 @@ module.exports = function(app){
             var url = $(element).find(".article-title").attr("href");
             
             if (title && url) {
-                db.headlines.insert({
+                db.Headline.create({
                     title: title,
                     summary: summary,
                     url: url,
@@ -130,7 +130,7 @@ module.exports = function(app){
         // as (mongojs.ObjectId(IdYouWantToFind))
       
         // Update the note that matches the object id
-        db.headlines.update(
+        db.Headline.update(
           {
             _id: mongojs.ObjectId(req.params.id)
           },
@@ -160,9 +160,9 @@ module.exports = function(app){
     
     // Add a note to the notes
     app.post("/api/notes/:id", function(req,res){
-        db.note.create(req.body)
+        db.Note.create(req.body)
         .then(function(dbNote) {
-            return db.headlines.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id}, { new: true});
+            return db.Headline.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id}, { new: true});
 
         })
         .then(function(dbHeadline) {
