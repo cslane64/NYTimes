@@ -5,11 +5,12 @@ var notesController = require("../controllers/saved");
 var cheerio = require("cheerio");
 var axios = require("axios");
 var mongojs = require("mongojs");
+var mongoose = require("mongoose");
 //var exphbs = require("express-handlebars");
 var databaseUrl = "times_db";
-var collections = ["headlines"];
-var db = mongojs(databaseUrl, collections);
-//var db = require("models");
+//var collections = ["headlines"];
+var db = mongojs(databaseUrl);
+//var db = require("./models");
 
 module.exports = function(app){
 
@@ -149,27 +150,50 @@ module.exports = function(app){
     // });
     
     app.get("/api/notes/:headline_id?", function(req,res){
-        var query = {};
-        if (req.params.headline_id) {
-            query._id = req.params.headline_id;
-        }
+        db.notes.create(req.body)
+        .then(function(dbNote) {
+            return db.headlines.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id}, { new: true});
 
-        notesController.get(query, function(err, data){
-            res.json(data);
+        })
+        .then(function(dbHeadline) {
+            res.json(dbHeadline);
+        })
+        .catch(function(err) {
+            res.json(err);
         });
+        // var query = {};
+        // if (req.params.headline_id) {
+        //     query._id = req.params.headline_id;
+        // }
+
+        // notesController.get(query, function(err, data){
+        //     res.json(data);
+        // });
     });
 
     app.delete("/api/notes/:id", function(req, res){
-        var query = {};
-        query._id = req.params.id;
-        notesController.delete(query, function(err, data){
-            res.json(data);
-        });
+        
+        // var query = {};
+        // query._id = req.params.id;
+        // notesController.delete(query, function(err, data){
+        //     res.json(data);
+        // });
     });
 
     app.post("/api/notes", function(req, res){
-        notesController.save(req.body, function(data){
-            res.json(data);
+        db.notes.create(req.body) 
+        .then(function(dbNote) {
+            return db.headlines.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id}, { new: true});
+
         })
-    })
+        .then(function(dbHeadline) {
+            res.json(dbHeadline);
+        })
+        .catch(function(err) {
+            res.json(err);
+        });
+        // notesController.save(req.body, function(data){
+        //     res.json(data);
+        // })
+    });
 }
