@@ -14,29 +14,31 @@ $(document).ready(function () {
         // This uses the data-id of the update button,
         // which is linked to the specific note title
         // that the user clicked before
-        // $.ajax({
-        //   type: "GET",
-        //   url: "/headlines/" + id,
-        //   })
-        //   .then(function(data){
-            
-        //     if (data.note) {
-        //       console.log(data.note.noteText)
-        //       // $(".modal-title").val(data.note.title);
-        //       // $(".modal-body").val(data.note.noteText);
-        //     }
-        //   })
-        //   // On successful call
-        //   // success: function(data) {
-        //   //   window.location.reload();
-        //   //   // Clear the inputs
-        //   //   // $("#note").val("");
-        //   //   // $("#title").val("");
-        //   //   // // Revert action button to submit
-        //   //   // $("#action-button").html("<button id='make-new'>Submit</button>");
-        //   //   // Grab the results from the db again, to populate the DOM
-        //   //   //getResults();
-        //     console.log($(this));
+        $.ajax({
+          type: "GET",
+          url: "/notes/" + id,
+          })
+          .then(function(data){
+            console.log("-----------------------------------");
+            console.log(data);
+            console.log("-----------------------------------");
+            // if (data.note) {
+            //   console.log(data.note.noteText)
+            //    $(".modal-title").val(data.note.title);
+            //    $(".modal-body").val(data.note.noteText);
+            // }
+          })
+          // On successful call
+          // success: function(data) {
+          //   window.location.reload();
+          //   // Clear the inputs
+          //   // $("#note").val("");
+          //   // $("#title").val("");
+          //   // // Revert action button to submit
+          //   // $("#action-button").html("<button id='make-new'>Submit</button>");
+          //   // Grab the results from the db again, to populate the DOM
+          //   //getResults();
+            //console.log($(this));
           });
 
           $(document).on("click", ".note-btn", function() {
