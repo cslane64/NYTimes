@@ -21,3 +21,8 @@ body {
 .get-btn {
     background: #ff69b4;
 }
+
+.del-btn{
+    margin-left: 5px;
+    background: red;
+}

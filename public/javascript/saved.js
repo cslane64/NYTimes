@@ -67,7 +67,42 @@ $(document).ready(function () {
                 
               })
             
+              //$("#my-modal").modal("toggle")
+          });
 
+          $(document).on("click", ".del-btn", function() {
+            // Save the selected element
+            var selected = $(this).parents("div.card-body");
+            console.log("Delete from saved button clicked");
+            var id = selected.find("p.card-id").text();
+            //console.log($(this).text());
+            console.log(id);
+            
+            // Make an AJAX POST request
+            // This uses the data-id of the update button,
+            // which is linked to the specific note title
+            // that the user clicked before
+            $.ajax({
+              type: "POST",
+              url: "/saved/" + id,
+              dataType: "json",
+              data: {
+                saved: false
+                
+              },
+              // On successful call
+              success: function(data) {
+                window.location.reload();
+                // Clear the inputs
+                // $("#note").val("");
+                // $("#title").val("");
+                // // Revert action button to submit
+                // $("#action-button").html("<button id='make-new'>Submit</button>");
+                // Grab the results from the db again, to populate the DOM
+                //getResults();
+                console.log($(this));
+              }
+            });
           });
 });
     

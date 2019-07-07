@@ -21,7 +21,7 @@
         <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
         <a class="nav-item nav-link" href="/headlines">Headlines</a>
         <a class="nav-item nav-link" href="/saved">Saved</a>
-        <a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+        <!--<a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
       </div>
     </div>
   </nav>
@@ -35,7 +35,8 @@
     <p class="card-text">{{summary}}</p>
     <a href={{url}} target="_blank">{{url}}</a>
     <!--<a href="" class="btn btn-primary note-btn float-right" data-toggle="modal" data-target="">Add a Note</a> -->
-    <button type="button" class="btn btn-primary get-btn float-right" data-toggle="modal" data-target="#my-modal">Add a Note</button>
+    <a href="#" class="btn btn-secondary del-btn float-right">Delete from Saved</a>
+    <button type="button" class="btn btn-primary get-btn float-right" data-toggle="modal" data-target="#my-modal">Article Notes</button>
   </div>
 </div>
 {{/each}}
@@ -55,7 +56,7 @@
         <input type="text" class="form-control" id="user-note"> 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary note-btn">Save note</button>
+        <button  class="btn btn-default btn-success note-btn" type="submit" data-dismiss="modal" >Save note</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>

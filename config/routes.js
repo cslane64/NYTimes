@@ -90,7 +90,33 @@ module.exports = function(app){
     
 //*************API ROUTES********************* */
     
-    app.delete("/api/headlines/:id", function(req,res){
+    app.post("/saved/:id", function(req,res){
+        db.Headline.update(
+            {
+              _id: mongojs.ObjectId(req.params.id)
+            },
+            {
+              // Set the title, note and modified parameters
+              // sent in the req body.
+              $set: {
+                saved: false
+              }
+            },
+            function(error, edited) {
+              // Log any errors from mongojs
+              if (error) {
+                console.log(error);
+                res.send(error);
+              }
+              else {
+                // Otherwise, send the mongojs response to the browser
+                // This will fire off the success function of the ajax request
+                console.log(edited);
+                res.send(edited);
+              }
+            }
+          );
+        
         // var query = {};
         // query._id = req.params.id;
         // headlinesController.delete(query, function(err, data){
@@ -144,30 +170,27 @@ module.exports = function(app){
         .catch(function(err) {
             res.json(err);
         });
+        //res.redirect("/saved");
         
     }); 
 
     app.delete("/api/notes/:id", function(req, res){
         
-        // var query = {};
-        // query._id = req.params.id;
-        // notesController.delete(query, function(err, data){
-        //     res.json(data);
-        // });
+        
     });
 
     app.get("/notes/:id", function(req, res) {
         // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
-        console.log(req);
-        db.Note.findOne({ _id: req.params.id })
+        console.log(req.params.id);
+        db.Note.find({ _id: req.params.id })
         
         //   // ..and populate all of the notes associated with it
-          //.populate("Note")
+          .populate("note")
           .then(function(dbData) {
             // If we were able to successfully find an Article with the given id, send it back to the client
             res.json(dbData);
             console.log("----------route-------------------------");
-            console.log(dbData);
+            console.log(res);
             console.log("-----------------------------------");
           })
           .catch(function(err) {
