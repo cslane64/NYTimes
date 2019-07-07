@@ -17,7 +17,7 @@ module.exports = function(app){
 //**************** html routes ******************************************** */
     app.get("/", function(req, res){
         
-        res.render("index", {});
+        res.render("index");
     }) 
     
     app.get("/headlines", function(req, res) {
