@@ -26,8 +26,8 @@ require("./config/routes")(app);
 //var databaseUrl = "times_db";
 //var collections = ["articles"];
 
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://user:password1@ds347917.mlab.com:47917/heroku_6kln3gk4";
-mongoose.connect("mongodb://localhost/times_db", { useNewUrlParser: true }, function(error){
+var MONGODB_URI = process.env.MONGODB_URI || mongoose.connect("mongodb://user:password1@ds347917.mlab.com:47917/heroku_6kln3gk4", { useNewUrlParser: true }, function(error){
+//mongoose.connect("mongodb://localhost/times_db", 
   // if (error) {
   //   console.log("database connection error" + error)
   // } else {
