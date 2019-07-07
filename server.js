@@ -11,6 +11,7 @@ var cheerio = require("cheerio");
 var db = require("./models");
 // Initialize Express
 var app = express();
+var PORT = process.env.PORT || 3000;
 
 app.use(express.static(__dirname + "/public"));
 app.use(express.urlencoded({ extended: true }));
@@ -36,6 +37,6 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://user:password1@ds347917.
 
 
 // Listen on port 3000
-app.listen(3000, function() {
+app.listen(PORT, function() {
     console.log("App running on port 3000!");
   });
