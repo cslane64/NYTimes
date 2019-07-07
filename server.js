@@ -25,8 +25,8 @@ require("./config/routes")(app);
 //var databaseUrl = "times_db";
 //var collections = ["articles"];
 
-//var db = process.env.MONGODB_URI || "mongodb://localhost/times_db";
-mongoose.connect("mongodb://localhost/times_db", { useNewUrlParser: true }, function(error){
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/times_db";
+//mongoose.connect("mongodb://localhost/times_db", { useNewUrlParser: true }, function(error){
   if (error) {
     console.log("database connection error" + error)
   } else {
