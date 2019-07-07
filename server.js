@@ -27,7 +27,7 @@ require("./config/routes")(app);
 //var collections = ["articles"];
 
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://user:password1@ds347917.mlab.com:47917/heroku_6kln3gk4";
-//mongoose.connect("mongodb://localhost/times_db", { useNewUrlParser: true }, function(error){
+mongoose.connect("mongodb://localhost/times_db", { useNewUrlParser: true }, function(error){
   // if (error) {
   //   console.log("database connection error" + error)
   // } else {
@@ -40,3 +40,5 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://user:password1@ds347917.
 app.listen(PORT, function() {
     console.log("App running on port 3000!");
   });
+
+});

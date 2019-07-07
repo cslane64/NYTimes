@@ -22,10 +22,10 @@ var headlineSchema = new Schema({
         type: Boolean,
         default: false
     },
-    note: [{
+    note: {
         type: Schema.Types.ObjectId,
         ref: "Note"
-    }]    
+    }    
 });
 
 var Headline = mongoose.model("Headline", headlineSchema);
