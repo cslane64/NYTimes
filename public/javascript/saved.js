@@ -20,13 +20,13 @@ $(document).ready(function () {
           })
           .then(function(data){
             console.log("-----------------------------------");
-            console.log(data);
+            console.log(data.note.noteText);
             console.log("-----------------------------------");
-            // if (data.note) {
-            //   console.log(data.note.noteText)
-            //    $(".modal-title").val(data.note.title);
-            //    $(".modal-body").val(data.note.noteText);
-            // }
+            if (data.note) {
+              console.log(data.note.noteText)
+               $(".modal-title").text(data.note.title);
+               $(".modal-body p").text(data.note.noteText);
+            }
           })
           // On successful call
           // success: function(data) {
