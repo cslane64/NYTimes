@@ -17,6 +17,9 @@ body {
 .save-btn {
     background: #ff69b4;
 }
+.note-btn {
+    background: #ff69b4;
+}
 
 .get-btn {
     background: #ff69b4;
@@ -25,4 +28,9 @@ body {
 .del-btn{
     margin-left: 5px;
     background: red;
+}
+
+.ex-btn {
+    margin: 5px;
+    background: #ff69b4;
 }

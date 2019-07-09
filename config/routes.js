@@ -174,8 +174,16 @@ module.exports = function(app){
         
     }); 
 
-    app.delete("/api/notes/:id", function(req, res){
-        
+    app.delete("/notes/delete/:id", function(req, res){
+      console.log()
+      db.Note.findByIdAndDelete({_id: req.params.id}, function(response){
+    
+        res.json(response);
+    
+      }).catch(function(err){
+        res.json(err);
+        })
+      
         
     });
 
